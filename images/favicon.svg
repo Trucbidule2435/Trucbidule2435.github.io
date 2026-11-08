@@ -4,5 +4,5 @@
       <circle cx="250" cy="250" r="250" />
     </clipPath>
   </defs>
-  <image href="favicon.png?v=2" width="500" height="500" clip-path="url(#circle)" />
+  <image href="favicon.png?v=3" width="500" height="500" clip-path="url(#circle)" />
 </svg>
