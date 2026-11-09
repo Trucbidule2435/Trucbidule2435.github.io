@@ -580,9 +580,12 @@
       revealTargets.forEach(function (el) {
         var rect = el.getBoundingClientRect();
         var progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / viewportHeight));
+        var maxScroll = document.documentElement.scrollHeight - viewportHeight;
+        var remainingScroll = Math.max(0, maxScroll - window.scrollY);
+        var blurProgress = Math.min(1, remainingScroll / viewportHeight);
         el.style.setProperty("--background-opacity", (progress * 0.75).toFixed(3));
         el.style.setProperty("--background-scale", (1.06 - progress * 0.06).toFixed(3));
-        el.style.setProperty("--background-blur", ((1 - progress) * 12).toFixed(2) + "px");
+        el.style.setProperty("--background-blur", (blurProgress * 12).toFixed(2) + "px");
       });
     };
     var blurUpdatePending = false;
