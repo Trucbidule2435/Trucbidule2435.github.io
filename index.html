@@ -226,6 +226,7 @@
       background-position: center;
       opacity: 0;
       transform: scale(1.06);
+      filter: blur(var(--background-blur, 0px));
       transition: opacity .8s ease, transform .8s ease;
     }
     .section[id="comptes"].revealed::before {
@@ -579,6 +580,26 @@
       update();
     });
     var revealTargets = document.querySelectorAll('.section[id="comptes"]');
+    var updateBackgroundBlur = function () {
+      var viewportHeight = window.innerHeight;
+      revealTargets.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        var progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
+        el.style.setProperty("--background-blur", (progress * 12).toFixed(2) + "px");
+      });
+    };
+    var blurUpdatePending = false;
+    var scheduleBackgroundBlur = function () {
+      if (blurUpdatePending) return;
+      blurUpdatePending = true;
+      window.requestAnimationFrame(function () {
+        updateBackgroundBlur();
+        blurUpdatePending = false;
+      });
+    };
+    window.addEventListener("scroll", scheduleBackgroundBlur, { passive: true });
+    window.addEventListener("resize", scheduleBackgroundBlur);
+    updateBackgroundBlur();
     var applyReveal = function (el) {
       var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce) return;
