@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trucbidule2435.github.io/sitemap.xml
